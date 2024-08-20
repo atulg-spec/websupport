@@ -1,0 +1,43 @@
+{% extends 'home/base.html' %}
+{% block extra_head %}
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet" />
+{% endblock extra_head %}
+{% block body %}
+<div class="max-w-screen-xl mx-auto p-4 mt-2">
+    <div class="grid gap-4">
+        <div>
+            <div class="h-auto max-w-40 rounded-lg">
+                <video id="my-video" class="video-js vjs-theme-fantasy main-video " controls preload=""
+                    poster="{{post.image_url}}" data-setup='{"playbackRates": [0.5, 1, 1.5, 2] }'>
+                    <source src="{{post.video_url}}" type="video/mp4" />
+                    <p class="vjs-no-js">
+                        {{post.title}}
+                    </p>
+                </video>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+            {% for x in media reversed %}
+            <a href="/{{x.slug}}" class="relative group">
+                <div class="relative">
+                    <img class="min-h-[150px] max-h-[150px] max-w-full rounded-lg transition-opacity duration-300 ease-in-out"
+                        src="{{x.image_url}}" alt="{{x.title}}">
+                    <video
+                        class="hidden max-w-full min-h-[150px] max-h-[150px] rounded-lg transition-opacity duration-300 ease-in-out z-10 group-hover:block"
+                        muted>
+                        <source src="{{x.short_video_url}}" type="video/mp4">
+                    </video>
+                    <p class="line-clamp-2 mb-3 text-gray-400 text-sm dark:text-gray-400">
+                        {{x.title}}
+                    </p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
+{% block extra_scripts %}
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+{% endblock extra_scripts %}
